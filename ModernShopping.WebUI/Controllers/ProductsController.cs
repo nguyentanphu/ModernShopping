@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ModernShopping.Application.Contracts;
+using ModernShopping.Application.Dtos;
 using ModernShopping.Persistence;
 using ModernShopping.Persistence.Entities;
 
@@ -14,23 +16,28 @@ namespace ModernShopping.WebUI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-		private readonly NorthwindContext _context;
+		private readonly IProductService _productService;
 
-		public ProductsController(NorthwindContext context)
-	    {
-		    _context = context;
-	    }
+        public ProductsController(IProductService productService)
+        {
+            _productService = productService;
+        }
 
-	    [HttpGet("{id}")]
-	    public async Task<ActionResult<Product>> GetProduct(int id)
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<ProductDto>> GetProduct(int id)
 	    {
-		    return await _context.Products.FindAsync(id);
+		    return await _productService.GetProductById(id);
 	    }
 
 	    [HttpGet]
-	    public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+	    [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
 	    {
-		    return await _context.Products.ToListAsync();
+		    return Ok(await _productService.GetProducts());
 	    }
 	}
 }
