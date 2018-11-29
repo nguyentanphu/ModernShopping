@@ -24,17 +24,23 @@ namespace ModernShopping.WebUI.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
-	    {
-		    return await _productService.GetProductById(id);
+        {
+            var product = await _productService.GetProductById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return product;
 	    }
 
 	    [HttpGet]
-	    [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
+	    [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
 	    {
 		    return Ok(await _productService.GetProducts());
