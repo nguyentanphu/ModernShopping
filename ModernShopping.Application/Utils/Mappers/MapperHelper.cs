@@ -11,6 +11,7 @@ namespace ModernShopping.Application.Utils.Mappers
             where TSource : class
             where TDest : class
         {
+            if (input == null) return null;
             return func(input);
         }
     }

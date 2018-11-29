@@ -45,5 +45,20 @@ namespace ModernShopping.WebUI.Controllers
 	    {
 		    return Ok(await _productService.GetProducts());
 	    }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var result = await _productService.DeleteProduct(id);
+            if (!result.IsFound)
+                return NotFound();
+
+            if (result.IsDeleted)
+                return NoContent();
+
+            return BadRequest();
+        }
 	}
 }
