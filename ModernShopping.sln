@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernShopping.WebUI", "ModernShopping.WebUI\ModernShopping.WebUI.csproj", "{5D4BE558-7555-4882-8F07-B3051083DAB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernShopping.WebUI", "ModernShopping.WebUI\ModernShopping.WebUI.csproj", "{5D4BE558-7555-4882-8F07-B3051083DAB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernShopping.Application", "ModernShopping.Application\ModernShopping.Application.csproj", "{AC7C72EC-5575-4E69-AAE4-248EBEC109FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernShopping.Application", "ModernShopping.Application\ModernShopping.Application.csproj", "{AC7C72EC-5575-4E69-AAE4-248EBEC109FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernShopping.Persistence", "ModernShopping.Persistence\ModernShopping.Persistence.csproj", "{59DC79C9-336E-42FC-8E6A-BEBCA0D824F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernShopping.Persistence", "ModernShopping.Persistence\ModernShopping.Persistence.csproj", "{59DC79C9-336E-42FC-8E6A-BEBCA0D824F5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernShopping.Presentation", "ModernShopping.Presentation\ModernShopping.Presentation.csproj", "{CECF6C98-D84C-4265-BD88-4EA1C3576756}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{59DC79C9-336E-42FC-8E6A-BEBCA0D824F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59DC79C9-336E-42FC-8E6A-BEBCA0D824F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59DC79C9-336E-42FC-8E6A-BEBCA0D824F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CECF6C98-D84C-4265-BD88-4EA1C3576756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CECF6C98-D84C-4265-BD88-4EA1C3576756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CECF6C98-D84C-4265-BD88-4EA1C3576756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CECF6C98-D84C-4265-BD88-4EA1C3576756}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
