@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos;
-using ModernShopping.Persistence;
-using ModernShopping.Persistence.Entities;
 
-namespace ModernShopping.WebUI.Controllers
+namespace ModernShopping.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
