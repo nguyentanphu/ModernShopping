@@ -42,7 +42,7 @@ namespace ModernShopping.Application.Services
 
         public async Task<DeleteResult> DeleteProduct(int id)
         {
-            var productEntity = await _context.Products
+            var productEntity = await _defaultProductQuery
                 .FirstOrDefaultAsync(p => p.ProductId == id);
 
             var isFound = productEntity != null;
