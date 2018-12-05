@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos;
+using ModernShopping.Application.Dtos.Products;
 
 namespace ModernShopping.Presentation.Controllers
 {
@@ -53,6 +54,20 @@ namespace ModernShopping.Presentation.Controllers
 
             if (result.IsDeleted)
                 return NoContent();
+
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ProductDto>> CreateProduct(ProductForCreationDto newProduct)
+        {
+            var result = await _productService.AddProduct(newProduct);
+            if (result.isAdded)
+            {
+                return CreatedAtAction("GetProduct", new {id = result.product.ProductId}, result.product);
+            }
 
             return BadRequest();
         }

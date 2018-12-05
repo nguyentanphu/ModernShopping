@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ModernShopping.Application.Common;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos;
+using ModernShopping.Application.Dtos.Products;
 using ModernShopping.Application.Utils.Mappers;
 using ModernShopping.Persistence;
 using ModernShopping.Persistence.Entities;
@@ -28,7 +31,7 @@ namespace ModernShopping.Application.Services
         public async Task<IEnumerable<ProductDto>> GetProducts()
         {
             return await _defaultProductQuery
-                .Select(ProductMapper.EntityToDtoExpressionFunc)
+                .Select(ProductMapper.EntityToDtoExpression)
                 .ToListAsync();
         }
 
@@ -56,5 +59,15 @@ namespace ModernShopping.Application.Services
                 IsDeleted = (await _context.SaveChangesAsync()) > 0
             };
         }
+
+	    public async Task<(ProductDto product, bool isAdded)> AddProduct(ProductForCreationDto newProduct)
+	    {
+		    var productEntity = newProduct.Map(ProductMapper.CreationToEntityFunc);
+		    _context.Products.Add(productEntity);
+		    var isAdded = await _context.SaveChangesAsync() > 0;
+		    var returnProduct = productEntity.Map(ProductMapper.EntityToDtoFunc);
+
+		    return (returnProduct, isAdded);
+	    }
     }
 }

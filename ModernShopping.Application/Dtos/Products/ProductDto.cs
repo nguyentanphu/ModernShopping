@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ModernShopping.Application.Dtos
+﻿namespace ModernShopping.Application.Dtos.Products
 {
     public class ProductDto
     {
