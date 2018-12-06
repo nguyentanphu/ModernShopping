@@ -6,7 +6,7 @@ using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos;
 using ModernShopping.Application.Dtos.Products;
 
-namespace ModernShopping.Presentation.Controllers
+namespace ModernShopping.Presentation.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]

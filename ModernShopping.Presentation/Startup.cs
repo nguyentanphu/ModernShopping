@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Services;
 using ModernShopping.Persistence;
+using ModernShopping.Presentation.ModelBinders;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ModernShopping.Presentation
@@ -37,6 +38,7 @@ namespace ModernShopping.Presentation
                 options.ReturnHttpNotAcceptable = true;
                 options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
 
+                options.ModelBinderProviders.Insert(0, new CustomArrayModelBinderProvider());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSwaggerGen(options =>

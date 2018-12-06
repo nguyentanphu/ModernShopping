@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ModernShopping.Presentation.Providers;
 
-namespace ModernShopping.Presentation.Controllers
+namespace ModernShopping.Presentation.Controllers.Api
 {
     [Route("api/[controller]")]
     public class WeatherController : Controller

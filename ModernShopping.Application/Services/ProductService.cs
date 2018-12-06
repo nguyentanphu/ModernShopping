@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.Internal;
 using ModernShopping.Application.Common;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos;
@@ -37,10 +38,17 @@ namespace ModernShopping.Application.Services
 
         public async Task<ProductDto> GetProductById(int id)
         {
-            var productEntity = await _defaultProductQuery
-                .FirstOrDefaultAsync(p => p.ProductId == id);
+            return (await GetProductByIds(new List<int> {id})).FirstOrDefault();
+        }
 
-            return productEntity.Map(ProductMapper.EntityToDtoFunc);
+        public async Task<IEnumerable<ProductDto>> GetProductByIds(IEnumerable<int> ids)
+        {
+            if (!ids.Any()) return Enumerable.Empty<ProductDto>();
+
+            return await _defaultProductQuery
+                .Where(p => ids.Contains(p.ProductId))
+                .Select(ProductMapper.EntityToDtoExpression)
+                .ToListAsync();
         }
 
         public async Task<DeleteResult> DeleteProduct(int id)
@@ -69,5 +77,16 @@ namespace ModernShopping.Application.Services
 
 		    return (returnProduct, isAdded);
 	    }
+
+        public async Task<(IEnumerable<ProductDto> product, bool isAdded)> AddProducts(
+            IEnumerable<ProductForCreationDto> newProducts)
+        {
+            var productEntities = newProducts.Select(ProductMapper.CreationToEntityFunc).ToList();
+            _context.Products.AddRange(productEntities);
+            var isAdded = await _context.SaveChangesAsync() == productEntities.Count;
+            var returnProducts = productEntities.Select(ProductMapper.EntityToDtoFunc);
+
+            return (returnProducts, isAdded);
+        }
     }
 }

@@ -12,8 +12,10 @@ namespace ModernShopping.Application.Contracts
     {
         Task<IEnumerable<ProductDto>> GetProducts();
         Task<ProductDto> GetProductById(int id);
+        Task<IEnumerable<ProductDto>> GetProductByIds(IEnumerable<int> ids);
         Task<DeleteResult> DeleteProduct(int id);
 	    Task<(ProductDto product, bool isAdded)> AddProduct(ProductForCreationDto newProduct);
+        Task<(IEnumerable<ProductDto> product, bool isAdded)> AddProducts(IEnumerable<ProductForCreationDto> newProducts);
 
     }
 }
