@@ -11,6 +11,7 @@ using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos;
 using ModernShopping.Application.Dtos.Products;
 using ModernShopping.Application.Utils.Mappers;
+using ModernShopping.Application.Utils.Queryable;
 using ModernShopping.Persistence;
 using ModernShopping.Persistence.Entities;
 
@@ -19,66 +20,46 @@ namespace ModernShopping.Application.Services
     public class ProductService : IProductService
     {
         private readonly NorthwindContext _context;
-        private readonly IQueryable<Product> _defaultProductQuery; 
         public ProductService(NorthwindContext context)
         {
             _context = context;
-            _defaultProductQuery = _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .Where(p => !p.Discontinued);
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts()
+        public async Task<IEnumerable<ProductDto>> GetProducts(IEnumerable<int> ids = null)
         {
-            return await _defaultProductQuery
+            return await _context.Products
+                .ProductIncludes()
+                .ApplyWhere(ids != null && ids.Any(), p => ids.Contains(p.ProductId))
                 .Select(ProductMapper.EntityToDtoExpression)
                 .ToListAsync();
         }
 
         public async Task<ProductDto> GetProductById(int id)
         {
-            return (await GetProductByIds(new List<int> {id})).FirstOrDefault();
+            return (await GetProducts(new List<int> {id})).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProductByIds(IEnumerable<int> ids)
+        public async Task<(bool IsFound, bool IsDeleted)> DeleteProduct(int id)
         {
-            if (!ids.Any()) return Enumerable.Empty<ProductDto>();
-
-            return await _defaultProductQuery
-                .Where(p => ids.Contains(p.ProductId))
-                .Select(ProductMapper.EntityToDtoExpression)
-                .ToListAsync();
-        }
-
-        public async Task<DeleteResult> DeleteProduct(int id)
-        {
-            var productEntity = await _defaultProductQuery
+            var productEntity = await _context.Products
                 .FirstOrDefaultAsync(p => p.ProductId == id);
 
             var isFound = productEntity != null;
 
             if (isFound)
-                productEntity.Discontinued = true;
+                _context.Products.Remove(productEntity);
 
-            return new DeleteResult
-            {
-                IsFound = isFound,
-                IsDeleted = (await _context.SaveChangesAsync()) > 0
-            };
+            return (isFound, await _context.SaveChangesAsync() > 0);
         }
 
-	    public async Task<(ProductDto product, bool isAdded)> AddProduct(ProductForCreationDto newProduct)
+	    public async Task<(ProductDto Product, bool IsAdded)> AddProduct(ProductForCreationDto newProduct)
 	    {
-		    var productEntity = newProduct.Map(ProductMapper.CreationToEntityFunc);
-		    _context.Products.Add(productEntity);
-		    var isAdded = await _context.SaveChangesAsync() > 0;
-		    var returnProduct = productEntity.Map(ProductMapper.EntityToDtoFunc);
+	        var result = await AddProducts(new List<ProductForCreationDto> {newProduct});
 
-		    return (returnProduct, isAdded);
+            return (result.Products.FirstOrDefault(), result.IsAdded);
 	    }
 
-        public async Task<(IEnumerable<ProductDto> product, bool isAdded)> AddProducts(
+        public async Task<(IEnumerable<ProductDto> Products, bool IsAdded)> AddProducts(
             IEnumerable<ProductForCreationDto> newProducts)
         {
             var productEntities = newProducts.Select(ProductMapper.CreationToEntityFunc).ToList();

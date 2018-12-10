@@ -10,12 +10,11 @@ namespace ModernShopping.Application.Contracts
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetProducts();
+        Task<IEnumerable<ProductDto>> GetProducts(IEnumerable<int> ids = null);
         Task<ProductDto> GetProductById(int id);
-        Task<IEnumerable<ProductDto>> GetProductByIds(IEnumerable<int> ids);
-        Task<DeleteResult> DeleteProduct(int id);
-	    Task<(ProductDto product, bool isAdded)> AddProduct(ProductForCreationDto newProduct);
-        Task<(IEnumerable<ProductDto> product, bool isAdded)> AddProducts(IEnumerable<ProductForCreationDto> newProducts);
+        Task<(bool IsFound, bool IsDeleted)> DeleteProduct(int id);
+	    Task<(ProductDto Product, bool IsAdded)> AddProduct(ProductForCreationDto newProduct);
+        Task<(IEnumerable<ProductDto> Products, bool IsAdded)> AddProducts(IEnumerable<ProductForCreationDto> newProducts);
 
     }
 }

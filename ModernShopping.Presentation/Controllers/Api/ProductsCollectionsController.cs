@@ -10,7 +10,7 @@ using ModernShopping.Presentation.ModelBinders;
 
 namespace ModernShopping.Presentation.Controllers.Api
 {
-    [Route("api/[controller]")]
+    [Route("api/products-collections")]
     [ApiController]
     public class ProductsCollectionsController : ControllerBase
     {
@@ -24,7 +24,9 @@ namespace ModernShopping.Presentation.Controllers.Api
         [HttpGet("({ids})")]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts(IEnumerable<int> ids)
         {
-            var returnProducts = await _productService.GetProductByIds(ids);
+            if (!ids.Any()) return NotFound();
+
+            var returnProducts = await _productService.GetProducts(ids);
             if (returnProducts.Count() != ids.Count())
                 return NotFound();
 

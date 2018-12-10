@@ -19,7 +19,7 @@ namespace ModernShopping.Persistence.Entities
         public short? UnitsInStock { get; set; }
         public short? UnitsOnOrder { get; set; }
         public short? ReorderLevel { get; set; }
-        public bool Discontinued { get; set; }
+        //public bool Discontinued { get; set; }    Using EF shadow property instead
 
         public Category Category { get; set; }
         public Supplier Supplier { get; set; }

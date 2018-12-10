@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ModernShopping.Persistence.Entities;
 
 namespace ModernShopping.Persistence
@@ -28,14 +32,14 @@ namespace ModernShopping.Persistence
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<Territory> Territories { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Northwind;Integrated Security=True");
-            }
-        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Northwind;Integrated Security=True");
+//            }
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -265,6 +269,8 @@ namespace ModernShopping.Persistence
 
             modelBuilder.Entity<Product>(entity =>
             {
+                entity.HasQueryFilter(e => !EF.Property<bool>(e, "Discontinued"));
+
                 entity.HasKey(e => e.ProductId);
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
@@ -288,6 +294,8 @@ namespace ModernShopping.Persistence
                 entity.Property(e => e.UnitsInStock).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.UnitsOnOrder).HasDefaultValueSql("((0))");
+
+                entity.Property<bool>("Discontinued");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
@@ -380,6 +388,17 @@ namespace ModernShopping.Persistence
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Territories_Region");
             });
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (var entityEntry in ChangeTracker.Entries<Product>().Where(e => e.State == EntityState.Deleted))
+            {
+                entityEntry.State = EntityState.Modified;
+                entityEntry.CurrentValues["Discontinued"] = true;
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

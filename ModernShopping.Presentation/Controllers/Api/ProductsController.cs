@@ -64,9 +64,9 @@ namespace ModernShopping.Presentation.Controllers.Api
         public async Task<ActionResult<ProductDto>> CreateProduct(ProductForCreationDto newProduct)
         {
             var result = await _productService.AddProduct(newProduct);
-            if (result.isAdded)
+            if (result.IsAdded)
             {
-                return CreatedAtAction("GetProduct", new {id = result.product.ProductId}, result.product);
+                return CreatedAtAction("GetProduct", new {id = result.Product.ProductId}, result.Product);
             }
 
             return BadRequest();

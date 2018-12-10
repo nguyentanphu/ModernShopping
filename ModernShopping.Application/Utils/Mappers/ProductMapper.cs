@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using ModernShopping.Application.Dtos;
 using ModernShopping.Application.Dtos.Products;
 using ModernShopping.Persistence.Entities;
@@ -17,7 +19,6 @@ namespace ModernShopping.Application.Utils.Mappers
                 Category = p.Category == null ? string.Empty : p.Category.CategoryName,
                 Supplier = p.Supplier == null ? string.Empty : p.Supplier.CompanyName,
                 ProductName = p.ProductName,
-                Discontinued = p.Discontinued,
                 QuantityPerUnit = p.QuantityPerUnit,
                 UnitPrice = p.UnitPrice,
                 UnitsInStock = p.UnitsInStock
@@ -34,9 +35,15 @@ namespace ModernShopping.Application.Utils.Mappers
 			    QuantityPerUnit = p.QuantityPerUnit,
 			    UnitPrice = p.UnitPrice,
 			    UnitsInStock = p.UnitsInStock,
-				Discontinued = false,
 		    };
 
 	    public static Func<ProductForCreationDto, Product> CreationToEntityFunc = CreationToEntityExpression.Compile();
+
+        public static IQueryable<Product> ProductIncludes(this IQueryable<Product> query)
+        {
+            return query
+                .Include(p => p.Category)
+                .Include(p => p.Supplier);
+        }
     }
 }
