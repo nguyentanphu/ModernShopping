@@ -15,7 +15,7 @@ namespace ModernShopping.Presentation.ModelBinders
                 throw new ArgumentNullException(nameof(context));
 
             if (context.Metadata.IsEnumerableType && context.Metadata.ModelType.GenericTypeArguments[0].IsPrimitive)
-                return new BinderTypeModelBinder(typeof(ArrayModelBinder));
+                return new ArrayModelBinder();
 
             return null;
         }
