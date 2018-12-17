@@ -4,10 +4,16 @@ import router from './router/index'
 import store from './store'
 import { sync } from 'vuex-router-sync'
 import App from 'components/app-root'
-import { FontAwesomeIcon } from './icons'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faVuejs } from '@fortawesome/free-brands-svg-icons';
+
+library.add(faShoppingBag, faVuejs);
 
 // Registration of global components
-Vue.component('icon', FontAwesomeIcon)
+Vue.component('fa-icon', FontAwesomeIcon)
+
 
 Vue.prototype.$http = axios
 
