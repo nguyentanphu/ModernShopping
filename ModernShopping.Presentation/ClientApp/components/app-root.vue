@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="container">
+    <div id="app" class="container bg-light">
         <nav-menu/>
         <div class="row app-body">
             <div class="col">

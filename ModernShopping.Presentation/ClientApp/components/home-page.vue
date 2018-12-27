@@ -18,25 +18,25 @@
                     </span>
                 </div>
                 <div>
-                    <span class="font-weight-bold text text-info">$ 199 each
+                    <span class="text-info">$ 199 each
                         <font-awesome-icon icon="times"/>&nbsp;Quantity: 2
                     </span>
                     <span class="float-right font-weight-bold border border-info">$ 398</span>
                 </div>
             </div>
 
-            <div class="text-info">
+            <div class="font-weight-bold text-info">
                 Total quantity: 40
-                <span class="float-right">
-                    <font-awesome-icon class="click-icon" icon="trash"/>&nbsp;Remove all
+                <span class="float-right click-icon">
+                    <font-awesome-icon icon="trash"/>&nbsp;Remove all
                 </span>
             </div>
             <div class="mt-3 mb-3">
-                <button class="btn btn-lg btn-block btn-success">Check out!</button>
+                <button class="btn btn-lg btn-block btn-success">Check out! ($2000)</button>
             </div>
         </div>
         <div class="col-8">
-            <div class="card border-info mb-3" v-for="n in 5" :key="n">
+            <div class="card border-info mb-3" v-for="n in 10" :key="n">
                 <div class="card-header">
                     Product {{ n }}
                     <span class="badge badge-pill badge-info float-right">$ 199</span>
