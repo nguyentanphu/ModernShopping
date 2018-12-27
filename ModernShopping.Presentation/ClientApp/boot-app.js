@@ -1,7 +1,23 @@
-import 'core-js/es6/promise'
-import 'core-js/es6/array'
+import Vue from 'vue'
+import axios from 'axios'
+import router from './router/index'
+import store from './store'
+import App from 'components/app-root'
+
 import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { app } from './app'
 
-app.$mount('#app')
+// Registration of global components
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+
+
+new Vue({
+  el: '#app',
+  store,
+  router,
+  ...App
+})

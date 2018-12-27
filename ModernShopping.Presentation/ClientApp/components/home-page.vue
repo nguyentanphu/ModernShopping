@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Hello, world! with <fa-icon :icon="['fab', 'vuejs']" />  <fa-icon icon="vuejs" /></h1>
+        <h1>Hello, world! with <font-awesome-icon :icon="['fab', 'vuejs']" /></h1>
         
 
     </div>

@@ -42,10 +42,10 @@ module.exports = () => {
       ]
     },
     plugins: [
-      new webpack.DllReferencePlugin({
-        context: __dirname,
-        manifest: require('./wwwroot/dist/vendor-manifest.json')
-      })
+      //new webpack.DllReferencePlugin({
+      //  context: __dirname,
+      //  manifest: require('./wwwroot/dist/vendor-manifest.json')
+      //})
     ].concat(isDevBuild ? [
       // Plugins that apply in development builds only
       new webpack.SourceMapDevToolPlugin({
