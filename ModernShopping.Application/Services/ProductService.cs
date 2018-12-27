@@ -69,5 +69,31 @@ namespace ModernShopping.Application.Services
 
             return (returnProducts, isAdded);
         }
-    }
+
+	    public async Task<IEnumerable<LabelValueObject>> GetSupplierSource(string query)
+	    {
+		    return await  _context.Suppliers
+			    .Where(s => s.CompanyName.Contains(query))
+			    .Select(s => new LabelValueObject
+			    {
+				    Label = s.CompanyName,
+				    Value = s.SupplierId
+			    })
+			    .Take(ApplicationConst.MaximumTake)
+			    .ToListAsync();
+	    }
+
+	    public async Task<IEnumerable<LabelValueObject>> GetCategorySource(string query)
+	    {
+		    return await _context.Categories
+			    .Where(c => c.CategoryName.Contains(query))
+			    .Select(c => new LabelValueObject
+			    {
+				    Label = c.CategoryName,
+				    Value = c.CategoryId
+			    })
+			    .Take(ApplicationConst.MaximumTake)
+			    .ToListAsync();
+	    }
+	}
 }

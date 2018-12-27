@@ -15,6 +15,7 @@ namespace ModernShopping.Application.Contracts
         Task<(bool IsFound, bool IsDeleted)> DeleteProduct(int id);
 	    Task<(ProductDto Product, bool IsAdded)> AddProduct(ProductForCreationDto newProduct);
         Task<(IEnumerable<ProductDto> Products, bool IsAdded)> AddProducts(IEnumerable<ProductForCreationDto> newProducts);
-
+	    Task<IEnumerable<LabelValueObject>> GetSupplierSource(string query);
+	    Task<IEnumerable<LabelValueObject>> GetCategorySource(string query);
     }
 }
