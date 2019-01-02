@@ -31,17 +31,18 @@ namespace ModernShopping.Persistence
         public virtual DbSet<Shipper> Shippers { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<Territory> Territories { get; set; }
+	    public virtual DbSet<Image> Images { get; set; }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Northwind;Integrated Security=True");
-//            }
-//        }
+		//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		//        {
+		//            if (!optionsBuilder.IsConfigured)
+		//            {
+		//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+		//                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Northwind;Integrated Security=True");
+		//            }
+		//        }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CartDetail>(entity =>
             {
@@ -306,9 +307,27 @@ namespace ModernShopping.Persistence
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.SupplierId)
                     .HasConstraintName("FK_Products_Suppliers");
+
+	            entity.HasMany(d => d.ProductImages)
+		            .WithOne()
+		            .HasForeignKey(pi => pi.ProductId);
             });
 
-            modelBuilder.Entity<Region>(entity =>
+	        modelBuilder.Entity<Image>(entity =>
+	        {
+		        entity.HasKey(e => e.ImageId);
+
+		        entity.Property(e => e.FileName)
+			        .HasMaxLength(50);
+	        });
+
+	        modelBuilder.Entity<ProductImage>(entity =>
+	        {
+		        entity.HasKey(pi => new {pi.ProductId, pi.ImageId});
+		        entity.ToTable("Products_Images");
+	        });
+
+			modelBuilder.Entity<Region>(entity =>
             {
                 entity.HasKey(e => e.RegionId)
                     .ForSqlServerIsClustered(false);
@@ -388,6 +407,8 @@ namespace ModernShopping.Persistence
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Territories_Region");
             });
+
+
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

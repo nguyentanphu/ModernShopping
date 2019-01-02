@@ -143,6 +143,80 @@ CREATE TABLE [dbo].[Products](
 ) ON [PRIMARY]
 
 GO
+
+/****** Object:  Table [dbo].[Products]    Script Date: 10/03/2017 10:32:12 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Products](
+	[ProductID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductName] [nvarchar](40) NOT NULL,
+	[SupplierID] [int] NULL,
+	[CategoryID] [int] NULL,
+	[QuantityPerUnit] [nvarchar](20) NULL,
+	[UnitPrice] [money] NULL,
+	[UnitsInStock] [smallint] NULL,
+	[UnitsOnOrder] [smallint] NULL,
+	[ReorderLevel] [smallint] NULL,
+	[Discontinued] [bit] NOT NULL,
+ CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED 
+(
+	[ProductID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+/****** Object:  Table [dbo].[Images]    Script Date: 1/2/2019 8:26:12 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Images](
+	[ImageID] [int] NOT NULL,
+	[FileName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Images] PRIMARY KEY CLUSTERED 
+(
+	[ImageID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[Products_Images]    Script Date: 1/2/2019 8:28:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Products_Images](
+	[ProductID] [int] NOT NULL,
+	[ImageID] [int] NOT NULL,
+ CONSTRAINT [PK_Products_Images] PRIMARY KEY CLUSTERED 
+(
+	[ProductID] ASC,
+	[ImageID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Products_Images]  WITH CHECK ADD  CONSTRAINT [FK_Products_Images_Images] FOREIGN KEY([ImageID])
+REFERENCES [dbo].[Images] ([ImageID])
+GO
+
+ALTER TABLE [dbo].[Products_Images] CHECK CONSTRAINT [FK_Products_Images_Images]
+GO
+
+ALTER TABLE [dbo].[Products_Images]  WITH CHECK ADD  CONSTRAINT [FK_Products_Images_Products] FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Products] ([ProductID])
+GO
+
+ALTER TABLE [dbo].[Products_Images] CHECK CONSTRAINT [FK_Products_Images_Products]
+GO
+
+
+GO
 /****** Object:  Table [dbo].[Order Details]    Script Date: 10/03/2017 10:32:12 AM ******/
 SET ANSI_NULLS ON
 GO

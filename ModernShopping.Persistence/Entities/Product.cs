@@ -8,6 +8,7 @@ namespace ModernShopping.Persistence.Entities
         public Product()
         {
             OrderDetails = new HashSet<OrderDetail>();
+			ProductImages = new HashSet<ProductImage>();
         }
 
         public int ProductId { get; set; }
@@ -24,5 +25,6 @@ namespace ModernShopping.Persistence.Entities
         public Category Category { get; set; }
         public Supplier Supplier { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
-    }
+	    public ICollection<ProductImage> ProductImages { get; set; }
+	}
 }
