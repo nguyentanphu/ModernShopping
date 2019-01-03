@@ -26,7 +26,7 @@ namespace ModernShopping.Presentation.Controllers.Api
         }
 
         [HttpPost, DisableRequestSizeLimit]
-        public ActionResult UploadImage(IFormFile imageUpload)
+        public async Task<ActionResult> UploadImage(IFormFile imageUpload)
         {
             if (imageUpload.Length == 0)
             {
@@ -36,9 +36,9 @@ namespace ModernShopping.Presentation.Controllers.Api
             var imagePath = _imageService.GenerateUniqueImagePath(_environment.WebRootPath, imageUpload.FileName);
             var loadedImage = _imageService.Load(imageUpload.OpenReadStream());
             _imageService.Resize(loadedImage, ApplicationConst.ImageMaxWidth);
-            _imageService.Save(loadedImage, imagePath);
+            var imageId = await _imageService.Save(loadedImage, imagePath);
 
-            return Ok();
+            return Ok(new { imageId });
 
         }
     }

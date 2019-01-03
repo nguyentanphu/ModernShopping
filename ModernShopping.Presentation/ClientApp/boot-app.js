@@ -7,11 +7,12 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'animate.css'
 import './icons'
-import {
-  FontAwesomeIcon
-} from '@fortawesome/vue-fontawesome'
-
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import vSelect from 'vue-select'
+import Notifications from 'vue-notification'
+
+Vue.use(Notifications)
+
 // Registration of global components
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('v-select', vSelect)

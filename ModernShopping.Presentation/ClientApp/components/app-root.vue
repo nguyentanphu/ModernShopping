@@ -1,5 +1,6 @@
 <template>
     <div id="app" class="container bg-light">
+        <notifications group="general-message"/>
         <nav-menu/>
         <div class="row app-body">
             <div class="col">
@@ -12,7 +13,7 @@
 </template>
 
 <script>
-import NavMenu from "./nav-menu";
+import NavMenu from "./nav-menu"
 
 export default {
     components: {
@@ -20,9 +21,9 @@ export default {
     },
 
     data() {
-        return {};
+        return {}
     }
-};
+}
 </script>
 
 <style scope>

@@ -174,7 +174,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Images](
-	[ImageID] [int] NOT NULL,
+	[ImageID] [int] IDENTITY(1,1) NOT NULL,
 	[FileName] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_Images] PRIMARY KEY CLUSTERED 
 (

@@ -10,7 +10,7 @@ namespace ModernShopping.Persistence.Entities
 		{
 			ProductImages = new HashSet<ProductImage>();
 		}
-		public int ImageId { get; set; }
+		public int ImageId { get; private set;}
 		public string FileName { get; set; }
 
 		public ICollection<ProductImage> ProductImages { get; set; }
