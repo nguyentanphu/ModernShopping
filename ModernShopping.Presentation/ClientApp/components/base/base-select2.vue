@@ -5,6 +5,7 @@
         :filterable="false"
         @search="searchHandler"
         @input="inputHandler"
+        :class="{'is-valid': required && value, 'is-invalid': required && !value}"
     >
         <template slot="no-options">
             <span v-if="showMinInput">Input length should be greater than {{ minInputLength }}</span>
@@ -37,6 +38,11 @@ export default {
         minInputLength: {
             required: true,
             type: Number
+        },
+        required: {
+            required: false,
+            type: Boolean,
+            default: false
         }
     },
     methods: {
@@ -74,4 +80,22 @@ export default {
     }
 }
 </script>
+<style>
+.vs__selected-options input {
+    border: 0 !important;
+}
+form.was-validated .is-valid .dropdown-toggle {
+    border-color: #28a745;
+}
+form.was-validated .is-invalid .dropdown-toggle {
+    border-color: #dc3545;
+}
+
+form.was-validated .dropdown.is-valid ~ .valid-feedback {
+    display: block;
+}
+form.was-validated .dropdown.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+</style>
 

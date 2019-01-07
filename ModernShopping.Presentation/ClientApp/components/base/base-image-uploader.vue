@@ -1,7 +1,13 @@
 <template>
     <div class="col-12">
         <div class="custom-file">
-            <input type="file" class="custom-file-input" @change="fileSelected" id="customFile">
+            <input
+                type="file"
+                class="custom-file-input"
+                @change="fileSelected"
+                id="customFile"
+                required
+            >
             <label class="custom-file-label" for="customFile">{{ fileName }}</label>
         </div>
         <div v-if="uploadPercentage" class="progress mt-1">
