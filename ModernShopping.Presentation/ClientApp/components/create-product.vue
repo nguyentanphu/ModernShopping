@@ -76,31 +76,8 @@
                             </div>
                         </div>
                         <div class="form-row mb-3">
-                            <div class="col-12">
-                                <div class="custom-file">
-                                    <input
-                                        type="file"
-                                        class="custom-file-input"
-                                        @change="fileSelected"
-                                        id="customFile"
-                                    >
-                                    <label class="custom-file-label" for="customFile">{{ fileName }}</label>
-                                </div>
-                                <div v-if="uploadPercentage" class="progress mt-1">
-                                    <div
-                                        class="progress-bar progress-bar-striped progress-bar-animated bg-info"
-                                        :style="{'width': uploadPercentage + '%'}"
-                                    ></div>
-                                </div>
-                                <div class="mt-1">
-                                    <img
-                                        class="image-preview"
-                                        v-if="imageSrc"
-                                        :src="imageSrc"
-                                        alt="image preview"
-                                    >
-                                </div>
-                            </div>
+                            <base-image-uploader @uploadSuccess="uploadSuccessHandler"/>
+                            {{ imageId }}
                         </div>
 
                         <button class="btn btn-primary" type="submit">Submit form</button>
@@ -108,103 +85,31 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-12 row">
-            <div class="col-3">
-                <!-- <v-select
-                    v-model="selected"
-                    :options="options"
-                    :filterable="false"
-                    @search="onSearch"
-                ></v-select>-->
-            </div>
-            <div class="col-6">
-                <!-- <input type="file" class="form-control-file" name="imageUpload" @change="fileSelected"> -->
-            </div>
-        </div>
     </div>
 </template>
 <script>
-import _ from 'lodash'
-import axios from 'axios'
 import baseSelect2 from './base/base-select2.vue'
+import baseImageUploader from './base/base-image-uploader.vue'
 
 export default {
     data() {
         return {
             selectedSupplier: null,
             selectedCategory: null,
-            options: [],
-            uploadPercentage: 0,
-            imageSrc: undefined,
-            fileName: 'Choose image'
+            imageId: null
         }
     },
     methods: {
-        async onSearch(query, loading) {
-            loading(true)
-            await this.debounceSearch(query, loading)
-        },
-        async fileSelected(event) {
-            const selectedFile = event.target.files[0]
-            this.fileName = selectedFile.name
-            this.showInputFileImagePreview(selectedFile)
-
-            const formData = new FormData()
-            formData.append('imageUpload', selectedFile, selectedFile.name)
-            const vm = this
-            try {
-                const response = await axios.post('/api/images', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    onUploadProgress(progressEvent) {
-                        vm.uploadPercentage = parseInt(
-                            Math.round(
-                                (progressEvent.loaded * 100) /
-                                    progressEvent.total
-                            )
-                        )
-                    }
-                })
-
-                this.$notify({
-                    group: 'general-message',
-                    type: 'success',
-                    title: 'Upload completed',
-                    text: 'Upload succeeded.'
-                })
-            } catch (error) {
-                this.$notify({
-                    group: 'general-message',
-                    type: 'error',
-                    title: 'Error!',
-                    text: 'Error occurred. Please contact your administrator.'
-                })
-            }
-        }
-    },
-    created() {
-        const vm = this
-
-        this.showInputFileImagePreview = function(fileTarget) {
-            const reader = new FileReader()
-
-            reader.onload = function() {
-                vm.imageSrc = reader.result
-            }
-
-            reader.readAsDataURL(fileTarget)
+        uploadSuccessHandler(eventData) {
+            this.imageId = eventData.imageId
         }
     },
     components: {
-        'base-select2': baseSelect2
+        'base-select2': baseSelect2,
+        'base-image-uploader': baseImageUploader
     }
 }
 </script>
 
 <style scoped>
-.image-preview {
-    max-width: 100%;
-}
 </style>
