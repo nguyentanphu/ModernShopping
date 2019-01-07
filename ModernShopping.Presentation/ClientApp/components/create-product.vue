@@ -10,7 +10,7 @@
                                 <label for="product-name">Product name</label>
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    class="form-control form-control-lg"
                                     id="product-name"
                                     placeholder="Sample name"
                                     required
@@ -21,9 +21,9 @@
                                 <label for="quantity-per-unit">Quality per unit</label>
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    class="form-control form-control-lg"
                                     id="quantity-per-unit"
-                                    placeholder="10 boxes x 20 bags"
+                                    placeholder="e.g. 10 boxes x 20 bags"
                                     required
                                 >
                                 <div class="valid-feedback">Looks good!</div>
@@ -33,23 +33,73 @@
                         <div class="form-row mb-3">
                             <div class="col-6">
                                 <label for="product-name">Category</label>
-                                <v-select
-                                    v-model="selected"
-                                    :options="options"
-                                    :filterable="false"
-                                    @search="onSearch"
-                                ></v-select>
+                                <base-select2
+                                    url="/api/data-source/category-source/"
+                                    :min-input-length="2"
+                                    v-model="selectedCategory"
+                                />
+                                {{ selectedCategory }}
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-6">
                                 <label for="quantity-per-unit">Supplier</label>
-                                <v-select
-                                    v-model="selected"
-                                    :options="options"
-                                    :filterable="false"
-                                    @search="onSearch"
-                                ></v-select>
+                                <base-select2
+                                    url="/api/data-source/supplier-source/"
+                                    :min-input-length="2"
+                                    v-model="selectedSupplier"
+                                />
+                                {{ selectedSupplier }}
                                 <div class="valid-feedback">Looks good!</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <div class="col-4">
+                                <label for="unit-price">Unit price</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="number" id="unit-price" class="form-control">
+                                </div>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-4">
+                                <label for="quantity-per-unit">Units in stock</label>
+                                <input type="number" id="units-in-stocks" class="form-control">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-4">
+                                <label for="quantity-per-unit">Units on order</label>
+                                <input type="number" id="units-on-order" class="form-control">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-12">
+                                <div class="custom-file">
+                                    <input
+                                        type="file"
+                                        class="custom-file-input"
+                                        @change="fileSelected"
+                                        id="customFile"
+                                    >
+                                    <label class="custom-file-label" for="customFile">{{ fileName }}</label>
+                                </div>
+                                <div v-if="uploadPercentage" class="progress mt-1">
+                                    <div
+                                        class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                                        :style="{'width': uploadPercentage + '%'}"
+                                    ></div>
+                                </div>
+                                <div class="mt-1">
+                                    <img
+                                        class="image-preview"
+                                        v-if="imageSrc"
+                                        :src="imageSrc"
+                                        alt="image preview"
+                                    >
+                                </div>
                             </div>
                         </div>
 
@@ -61,33 +111,15 @@
 
         <div class="col-12 row">
             <div class="col-3">
-                <v-select
+                <!-- <v-select
                     v-model="selected"
                     :options="options"
                     :filterable="false"
                     @search="onSearch"
-                ></v-select>
+                ></v-select>-->
             </div>
             <div class="col-6">
                 <!-- <input type="file" class="form-control-file" name="imageUpload" @change="fileSelected"> -->
-                <div class="custom-file">
-                    <input
-                        type="file"
-                        class="custom-file-input"
-                        @change="fileSelected"
-                        id="customFile"
-                    >
-                    <label class="custom-file-label" for="customFile">{{ fileName }}</label>
-                </div>
-                <div v-if="uploadPercentage" class="progress mt-1">
-                    <div
-                        class="progress-bar progress-bar-striped progress-bar-animated bg-info"
-                        :style="{'width': uploadPercentage + '%'}"
-                    ></div>
-                </div>
-                <div class="mt-1">
-                    <img class="image-preview" v-if="imageSrc" :src="imageSrc" alt="image preview">
-                </div>
             </div>
         </div>
     </div>
@@ -95,10 +127,13 @@
 <script>
 import _ from 'lodash'
 import axios from 'axios'
+import baseSelect2 from './base/base-select2.vue'
+
 export default {
     data() {
         return {
-            selected: undefined,
+            selectedSupplier: null,
+            selectedCategory: null,
             options: [],
             uploadPercentage: 0,
             imageSrc: undefined,
@@ -151,13 +186,6 @@ export default {
     },
     created() {
         const vm = this
-        this.debounceSearch = _.debounce(async (query, loading) => {
-            const response = await axios.get(
-                '/api/data-source/category-source/' + escape(query)
-            )
-            vm.options = response.data
-            loading(false)
-        }, 500)
 
         this.showInputFileImagePreview = function(fileTarget) {
             const reader = new FileReader()
@@ -168,6 +196,9 @@ export default {
 
             reader.readAsDataURL(fileTarget)
         }
+    },
+    components: {
+        'base-select2': baseSelect2
     }
 }
 </script>
