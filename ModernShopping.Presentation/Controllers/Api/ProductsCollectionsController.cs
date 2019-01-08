@@ -38,13 +38,10 @@ namespace ModernShopping.Presentation.Controllers.Api
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> CreateProduct(IEnumerable<ProductForCreationDto> newProduct)
         {
-            var result = await _productService.AddProducts(newProduct);
-            var newProductIds = result.Products.Select(p => p.ProductId);
+            var products = await _productService.AddProducts(newProduct);
+            var newProductIds = products.Select(p => p.ProductId);
 
-            if (result.IsAdded)
-                return CreatedAtAction("GetProducts", new {ids = string.Join(',', newProductIds)}, result.Products);
-
-            return BadRequest();
+            return CreatedAtAction("GetProducts", new {ids = string.Join(',', newProductIds)}, products);
         }
     }
 }

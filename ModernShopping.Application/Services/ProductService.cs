@@ -10,6 +10,8 @@ using ModernShopping.Application.Common;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos;
 using ModernShopping.Application.Dtos.Products;
+using ModernShopping.Application.Exceptions;
+using ModernShopping.Application.Utils;
 using ModernShopping.Application.Utils.Mappers;
 using ModernShopping.Application.Utils.Queryable;
 using ModernShopping.Persistence;
@@ -39,35 +41,41 @@ namespace ModernShopping.Application.Services
             return (await GetProducts(new List<int> {id})).FirstOrDefault();
         }
 
-        public async Task<(bool IsFound, bool IsDeleted)> DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
             var productEntity = await _context.Products
                 .FirstOrDefaultAsync(p => p.ProductId == id);
 
-            var isFound = productEntity != null;
+            if (productEntity == null)
+                throw  new EntityNotFoundException($"Cannot find product with id={id} in order to delete");
 
-            if (isFound)
-                _context.Products.Remove(productEntity);
+            _context.Products.Remove(productEntity);
 
-            return (isFound, await _context.SaveChangesAsync() > 0);
+            var affectedRow = await _context.SaveChangesAsync();
+            HelperCore.CheckSaveChange(affectedRow, 1);
+
         }
 
-	    public async Task<(ProductDto Product, bool IsAdded)> AddProduct(ProductForCreationDto newProduct)
+	    public async Task<ProductDto> AddProduct(ProductForCreationDto newProduct)
 	    {
 	        var result = await AddProducts(new List<ProductForCreationDto> {newProduct});
 
-            return (result.Products.FirstOrDefault(), result.IsAdded);
+            return result.FirstOrDefault();
 	    }
 
-        public async Task<(IEnumerable<ProductDto> Products, bool IsAdded)> AddProducts(
+        public async Task<IEnumerable<ProductDto>> AddProducts(
             IEnumerable<ProductForCreationDto> newProducts)
         {
             var productEntities = newProducts.Select(ProductMapper.CreationToEntityFunc).ToList();
             _context.Products.AddRange(productEntities);
-            var isAdded = await _context.SaveChangesAsync() == productEntities.Count + productEntities.Sum(p => p.ProductImages.Count);
+            var affectedRow = await _context.SaveChangesAsync();
+            var expectedAffectedRow = productEntities.Count + productEntities.Sum(p => p.ProductImages.Count);
+
+            HelperCore.CheckSaveChange(affectedRow, expectedAffectedRow);
+
             var returnProducts = productEntities.Select(ProductMapper.EntityToDtoFunc);
 
-            return (returnProducts, isAdded);
+            return returnProducts;
         }
 
 	    public async Task<IEnumerable<LabelValueObject>> GetSupplierSource(string query)

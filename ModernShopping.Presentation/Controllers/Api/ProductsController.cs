@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos;
 using ModernShopping.Application.Dtos.Products;
+using ModernShopping.Application.Exceptions;
 
 namespace ModernShopping.Presentation.Controllers.Api
 {
@@ -40,25 +42,26 @@ namespace ModernShopping.Presentation.Controllers.Api
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var result = await _productService.DeleteProduct(id);
-            if (!result.IsFound)
-                return NotFound();
+            try
+            {
+                await _productService.DeleteProduct(id);
 
-            if (result.IsDeleted)
                 return NoContent();
-
-            return BadRequest();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<ProductDto>> CreateProduct(ProductForCreationDto newProduct)
         {
-            var result = await _productService.AddProduct(newProduct);
-            if (result.IsAdded)
-                return CreatedAtAction("GetProduct", new {id = result.Product.ProductId}, result.Product);
+            var product = await _productService.AddProduct(newProduct);
+            
+            return CreatedAtAction("GetProduct", new {id = product.ProductId}, product);
 
-            return BadRequest();
         }
 	}
 }
