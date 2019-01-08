@@ -64,7 +64,7 @@ namespace ModernShopping.Application.Services
         {
             var productEntities = newProducts.Select(ProductMapper.CreationToEntityFunc).ToList();
             _context.Products.AddRange(productEntities);
-            var isAdded = await _context.SaveChangesAsync() == productEntities.Count;
+            var isAdded = await _context.SaveChangesAsync() == productEntities.Count + productEntities.Sum(p => p.ProductImages.Count);
             var returnProducts = productEntities.Select(ProductMapper.EntityToDtoFunc);
 
             return (returnProducts, isAdded);

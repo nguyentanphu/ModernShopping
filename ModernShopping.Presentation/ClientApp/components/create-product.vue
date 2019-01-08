@@ -55,17 +55,17 @@
                                     <div class="invalid-feedback">Please provide product name.</div>
                                 </div>
                                 <div class="col-6">
-                                    <label for="quantity-per-unit">Quanlity per unit</label>
+                                    <label for="quantity-per-unit">Quantity per unit</label>
                                     <input
                                         type="text"
                                         class="form-control form-control-lg"
                                         id="quantity-per-unit"
                                         placeholder="e.g. 10 boxes x 20 bags"
                                         required
-                                        v-model.trim="product.quanlityPerUnit"
+                                        v-model.trim="product.quantityPerUnit"
                                     >
                                     <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please provide quanlity per unit.</div>
+                                    <div class="invalid-feedback">Please provide quantity per unit.</div>
                                 </div>
                             </div>
 
@@ -151,6 +151,7 @@
     </form>
 </template>
 <script>
+import axios from 'axios'
 import baseSelect2 from './base/base-select2.vue'
 import baseImageUploader from './base/base-image-uploader.vue'
 
@@ -161,7 +162,7 @@ export default {
             productsToCreate: [
                 {
                     productName: null,
-                    quanlityPerUnit: null,
+                    quantityPerUnit: null,
                     category: null,
                     supplier: null,
                     unitPrice: null,
@@ -175,12 +176,37 @@ export default {
     methods: {
         createProducts() {
             this.isSubmited = true
-            console.log(this)
+
+            for (const product of this.productsToCreate) {
+                if (!this.isValidProduct(product)) return
+            }
+
+            try {
+                const response = axios.post(
+                    '/api/products-collections',
+                    this.productsToCreate
+                )
+                console.log(response)
+                this.$notify({
+                    group: 'general-message',
+                    type: 'success',
+                    title: 'Create product(s) succeeded!',
+                    text: 'Your new product(s) have been saved!'
+                })
+            } catch (error) {
+                console.log(error)
+                this.$notify({
+                    group: 'general-message',
+                    type: 'error',
+                    title: 'Error!',
+                    text: 'Error occurred. Please contact your administrator.'
+                })
+            }
         },
         addProductToCreate() {
             this.productsToCreate.push({
                 productName: null,
-                quanlityPerUnit: null,
+                quantityPerUnit: null,
                 category: null,
                 supplier: null,
                 unitPrice: null,
@@ -199,17 +225,26 @@ export default {
     },
     created() {
         this.scrollToBottom = () => {
-            var scrollingElement = (document.scrollingElement || document.body);
+            var scrollingElement = document.scrollingElement || document.body
 
             const productHeight = 730
             let scrollDistance = 0
             const scrollInterval = setInterval(() => {
                 scrollDistance += 5
-                scrollingElement.scrollTop += 5;
+                scrollingElement.scrollTop += 5
                 if (scrollDistance >= productHeight)
                     clearInterval(scrollInterval)
             }, 10)
         }
+        this.isValidProduct = product => {
+            for (const key in product) {
+                if (!product[key]) return false
+
+                return true
+            }
+        }
+
+        console.log(this)
     },
     components: {
         'base-select2': baseSelect2,

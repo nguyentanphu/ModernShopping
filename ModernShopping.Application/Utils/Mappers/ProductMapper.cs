@@ -29,12 +29,14 @@ namespace ModernShopping.Application.Utils.Mappers
 	    public static Expression<Func<ProductForCreationDto, Product>> CreationToEntityExpression =>
 		    p => new Product
 		    {
-			    CategoryId = p.CategoryId,
-				SupplierId = p.SupplierId,
-			    ProductName = p.ProductName,
+			    CategoryId = p.Category == null ? (int?)null : p.Category.Value,
+				SupplierId = p.Supplier == null ? (int?)null : p.Supplier.Value,
+                ProductName = p.ProductName,
 			    QuantityPerUnit = p.QuantityPerUnit,
 			    UnitPrice = p.UnitPrice,
 			    UnitsInStock = p.UnitsInStock,
+                UnitsOnOrder = p.UnitsOnOrder,
+                ProductImages = new HashSet<ProductImage> { new ProductImage { ImageId = p.ImageId} }
 		    };
 
 	    public static Func<ProductForCreationDto, Product> CreationToEntityFunc = CreationToEntityExpression.Compile();
