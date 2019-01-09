@@ -159,21 +159,22 @@ export default {
     data() {
         return {
             isSubmited: false,
-            productsToCreate: [
-                {
-                    productName: null,
-                    quantityPerUnit: null,
-                    category: null,
-                    supplier: null,
-                    unitPrice: null,
-                    unitsInStock: null,
-                    unitsOnOrder: null,
-                    imageId: null
-                }
-            ]
+            productsToCreate: [this.getEmptyProduct()]
         }
     },
     methods: {
+        getEmptyProduct() {
+            return {
+                productName: null,
+                quantityPerUnit: null,
+                category: null,
+                supplier: null,
+                unitPrice: null,
+                unitsInStock: null,
+                unitsOnOrder: null,
+                imageId: null
+            }
+        },
         createProducts() {
             this.isSubmited = true
 
@@ -186,7 +187,14 @@ export default {
                     '/api/products-collections',
                     this.productsToCreate
                 )
-                console.log(response)
+
+                this.$delete(
+                    this.productsToCreate,
+                    this.productsToCreate.length
+                )
+                this.productsToCreate = [this.getEmptyProduct()]
+                this.isSubmited = false
+
                 this.$notify({
                     group: 'general-message',
                     type: 'success',
@@ -243,8 +251,6 @@ export default {
                 return true
             }
         }
-
-        console.log(this)
     },
     components: {
         'base-select2': baseSelect2,
