@@ -36,28 +36,16 @@
             </div>
         </div>
         <div class="col-8">
-            <div class="row">
-                <product :product="product" v-for="product in products" :key="product.productId"/>
-            </div>
+            <product-list/>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
-import product from './product'
+import productList from './product/product-list'
 export default {
-    data() {
-        return {
-            products: null
-        }
-    },
     components: {
-        'product': product
-    },
-    async created() {
-        const result = await axios.get('/api/products')
-        this.products = result.data
+        'product-list': productList
     }
 }
 </script>
