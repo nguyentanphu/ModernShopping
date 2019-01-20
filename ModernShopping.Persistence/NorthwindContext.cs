@@ -18,7 +18,7 @@ namespace ModernShopping.Persistence
         {
         }
 
-        public virtual DbSet<CartDetail> CartDetails { get; set; }
+        public virtual DbSet<CartLine> CartDetails { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
@@ -44,7 +44,7 @@ namespace ModernShopping.Persistence
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CartDetail>(entity =>
+            modelBuilder.Entity<CartLine>(entity =>
             {
                 entity.HasKey(e => new { e.CartId, e.ProductId });
 
@@ -55,7 +55,7 @@ namespace ModernShopping.Persistence
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
 
                 entity.HasOne(d => d.Cart)
-                    .WithMany(p => p.CartDetails)
+                    .WithMany(p => p.CartLines)
                     .HasForeignKey(d => d.CartId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CartDetails_Carts");

@@ -31,20 +31,18 @@ namespace ModernShopping.Application.Utils.Mappers
 
         public static Func<Product, ProductDto> EntityToDtoFunc => EntityToDtoExpression.Compile();
 
-	    public static Expression<Func<ProductForCreationDto, Product>> CreationToEntityExpression =>
+	    public static Func<ProductForCreationDto, Product> CreationToEntityFunc =>
 		    p => new Product
 		    {
-			    CategoryId = p.Category == null ? (int?)null : p.Category.Value,
-				SupplierId = p.Supplier == null ? (int?)null : p.Supplier.Value,
-                ProductName = p.ProductName,
+			    CategoryId = p.Category?.Value,
+			    SupplierId = p.Supplier?.Value,
+			    ProductName = p.ProductName,
 			    QuantityPerUnit = p.QuantityPerUnit,
 			    UnitPrice = p.UnitPrice,
 			    UnitsInStock = p.UnitsInStock,
-                UnitsOnOrder = p.UnitsOnOrder,
-                ProductImages = new HashSet<ProductImage> { new ProductImage { ImageId = p.ImageId} }
-		    };
-
-	    public static Func<ProductForCreationDto, Product> CreationToEntityFunc = CreationToEntityExpression.Compile();
+			    UnitsOnOrder = p.UnitsOnOrder,
+			    ProductImages = new HashSet<ProductImage> { new ProductImage { ImageId = p.ImageId } }
+			};
 
         public static IQueryable<Product> ProductIncludes(this IQueryable<Product> query)
         {

@@ -24,6 +24,7 @@
     <ProjectReference Include="..\ModernShopping.Application\ModernShopping.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Providers\" />
     <Folder Include="wwwroot\product-images\" />
   </ItemGroup>
 

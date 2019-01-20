@@ -29,9 +29,9 @@ namespace ModernShopping.Presentation
         {
             services.AddDbContext<NorthwindContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("NorthwindDatabase")));
-            services.AddSingleton<Providers.IWeatherProvider, Providers.WeatherProviderFake>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<ICartService, CartService>();
 
             services.AddMvc(options =>
             {

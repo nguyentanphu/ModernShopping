@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModernShopping.Persistence.Entities
 {
-    public partial class CartDetail
+    public partial class CartLine
     {
         public int CartId { get; set; }
         public int ProductId { get; set; }
