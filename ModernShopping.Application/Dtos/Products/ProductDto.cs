@@ -19,9 +19,10 @@ namespace ModernShopping.Application.Dtos.Products
         public short? UnitsInStock { get; set; }
 
 	    public int? SupplierId { get; set; }
-	    public int? CategoryId { get; set; }
-		public string Category { get; set; }
-        public string Supplier { get; set; }
+	    public string SupplierName { get; set; }
+		public int? CategoryId { get; set; }
+		public string CategoryName { get; set; }
+        
 	    public IEnumerable<ImageDto> ImageDtos { get; set; }
     }
 }

@@ -34,6 +34,7 @@ namespace ModernShopping.Application.Services
                 .ProductIncludes()
                 .ApplyWhere(ids != null && ids.Any(), p => ids.Contains(p.ProductId))
                 .Select(ProductMapper.EntityToDtoExpression)
+	            .OrderByDescending(p => p.ProductId)
                 .ToListAsync(cancellationToken);
         }
 

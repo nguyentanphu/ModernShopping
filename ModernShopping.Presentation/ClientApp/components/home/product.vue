@@ -1,22 +1,19 @@
 <template>
     <div class="col-6">
         <div class="card mb-3">
-            <img
-                class="card-img-top"
-                src="/product-images/default/default.jpg"
-                alt="Card image cap"
-            >
+            <img class="card-img-top" :src="productImageUrl" alt="product.productName">
             <div class="card-body">
                 <h5 class="card-title">
-                    Aniseed Syrup as das das das das dasddsdsdsd sd sds
+                    {{ product.productName }}
                     <span
                         class="badge badge-pill badge-info float-right"
-                    >$ 199</span>
+                    >$ {{ product.unitPrice }}</span>
                 </h5>
-                <p class="card-text">Category sample. Sold by: Supplier sample</p>
+                <p class="card-text">Category: {{ product.categoryName }}</p>
+                <p class="card-text">Sold by: {{ product.supplierName }}</p>
             </div>
             <div class="card-footer">
-                <small class="text-muted">40 unit(s) x 24 - 12 oz bottles</small>
+                <small class="text-muted">{{ product.quantityPerUnit }}</small>
                 <span title="Add to cart" class="float-right click-icon">
                     <font-awesome-icon icon="shopping-cart"/>
                 </span>
@@ -29,7 +26,13 @@
 export default {
     props: {
         product: {
-            required: true
+            required: true,
+            type: Object
+        }
+    },
+    computed: {
+        productImageUrl() {
+            return this.product.imageDtos[0] ? this.product.imageDtos[0].imageUrl : '/product-images/default/default.jpg';
         }
     }
 }

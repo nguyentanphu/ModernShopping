@@ -19,9 +19,9 @@ namespace ModernShopping.Application.Utils.Mappers
             {
                 ProductId = p.ProductId,
 	            CategoryId = p.CategoryId,
-				Category = p.Category == null ? string.Empty : p.Category.CategoryName,
+				CategoryName = p.Category == null ? string.Empty : p.Category.CategoryName,
 				SupplierId = p.SupplierId,
-                Supplier = p.Supplier == null ? string.Empty : p.Supplier.CompanyName,
+                SupplierName = p.Supplier == null ? string.Empty : p.Supplier.CompanyName,
                 ProductName = p.ProductName,
                 QuantityPerUnit = p.QuantityPerUnit,
                 UnitPrice = p.UnitPrice,
