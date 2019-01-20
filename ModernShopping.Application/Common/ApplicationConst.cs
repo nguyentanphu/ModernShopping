@@ -8,5 +8,6 @@ namespace ModernShopping.Application.Common
 	{
 		public const int MaximumTake = 20;
 	    public const int ImageMaxWidth = 800;
+		public const string BaseProductImageUrl = "product-images/";
 	}
 }

@@ -308,9 +308,6 @@ namespace ModernShopping.Persistence
                     .HasForeignKey(d => d.SupplierId)
                     .HasConstraintName("FK_Products_Suppliers");
 
-	            entity.HasMany(d => d.ProductImages)
-		            .WithOne()
-		            .HasForeignKey(pi => pi.ProductId);
             });
 
 	        modelBuilder.Entity<Image>(entity =>
@@ -324,8 +321,17 @@ namespace ModernShopping.Persistence
 	        modelBuilder.Entity<ProductImage>(entity =>
 	        {
 		        entity.HasKey(pi => new {pi.ProductId, pi.ImageId});
-		        entity.ToTable("Products_Images");
-	        });
+
+		        entity.HasOne(pi => pi.Product)
+			        .WithMany(p => p.ProductImages)
+			        .HasForeignKey(pi => pi.ProductId);
+
+		        entity.HasOne(pi => pi.Image)
+			        .WithMany(pi => pi.ProductImages)
+			        .HasForeignKey(pi => pi.ImageId);
+
+				entity.ToTable("Products_Images");
+			});
 
 			modelBuilder.Entity<Region>(entity =>
             {

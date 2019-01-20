@@ -16,13 +16,16 @@ namespace ModernShopping.Application.Utils.Mappers
             p => new ProductDto
             {
                 ProductId = p.ProductId,
-                Category = p.Category == null ? string.Empty : p.Category.CategoryName,
+	            CategoryId = p.CategoryId,
+				Category = p.Category == null ? string.Empty : p.Category.CategoryName,
+				SupplierId = p.SupplierId,
                 Supplier = p.Supplier == null ? string.Empty : p.Supplier.CompanyName,
                 ProductName = p.ProductName,
                 QuantityPerUnit = p.QuantityPerUnit,
                 UnitPrice = p.UnitPrice,
-                UnitsInStock = p.UnitsInStock
-            };
+                UnitsInStock = p.UnitsInStock,
+				ImageId = p.ProductImages.Any() ? p.ProductImages.First().ImageId : default(int?)
+			};
 
         public static Func<Product, ProductDto> EntityToDtoFunc => EntityToDtoExpression.Compile();
 
@@ -43,9 +46,10 @@ namespace ModernShopping.Application.Utils.Mappers
 
         public static IQueryable<Product> ProductIncludes(this IQueryable<Product> query)
         {
-            return query
-                .Include(p => p.Category)
-                .Include(p => p.Supplier);
+	        return query
+		        .Include(p => p.Category)
+		        .Include(p => p.Supplier)
+		        .Include(p => p.ProductImages);
         }
     }
 }

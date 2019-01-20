@@ -152,8 +152,8 @@
 </template>
 <script>
 import axios from 'axios'
-import baseSelect2 from './base/base-select2.vue'
-import baseImageUploader from './base/base-image-uploader.vue'
+import baseSelect2 from '../base/base-select2'
+import baseImageUploader from '../base/base-image-uploader'
 
 export default {
     data() {
