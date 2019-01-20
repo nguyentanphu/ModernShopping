@@ -1,10 +1,17 @@
-﻿using ModernShopping.Application.Common;
+﻿using System.Collections.Generic;
+using ModernShopping.Application.Common;
+using ModernShopping.Application.Dtos.Images;
 
 namespace ModernShopping.Application.Dtos.Products
 {
     public class ProductDto
     {
-        public int ProductId { get; set; }
+		public ProductDto()
+		{
+			ImageDtos = new HashSet<ImageDto>();
+		}
+
+		public int ProductId { get; set; }
         public string ProductName { get; set; }
         
         public string QuantityPerUnit { get; set; }
@@ -15,7 +22,6 @@ namespace ModernShopping.Application.Dtos.Products
 	    public int? CategoryId { get; set; }
 		public string Category { get; set; }
         public string Supplier { get; set; }
-	    //public string ImageUrl => ImageId.HasValue ? $"{ApplicationConst.BaseProductImageUrl}{ImageId}" : string.Empty;
-		public int? ImageId { get; set; }
+	    public IEnumerable<ImageDto> ImageDtos { get; set; }
     }
 }

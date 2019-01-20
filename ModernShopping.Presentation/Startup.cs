@@ -39,7 +39,7 @@ namespace ModernShopping.Presentation
                 options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
 
                 options.ModelBinderProviders.Insert(0, new CustomArrayModelBinderProvider());
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerGen(options =>
             {

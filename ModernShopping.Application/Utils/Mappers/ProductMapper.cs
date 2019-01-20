@@ -4,7 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using ModernShopping.Application.Dtos;
+using ModernShopping.Application.Dtos.Images;
 using ModernShopping.Application.Dtos.Products;
 using ModernShopping.Persistence.Entities;
 
@@ -24,7 +26,7 @@ namespace ModernShopping.Application.Utils.Mappers
                 QuantityPerUnit = p.QuantityPerUnit,
                 UnitPrice = p.UnitPrice,
                 UnitsInStock = p.UnitsInStock,
-				ImageId = p.ProductImages.Any() ? p.ProductImages.First().ImageId : default(int?)
+				ImageDtos = p.ProductImages.Select(pi => new ImageDto { ImageId = pi.ImageId, FileName = pi.Image.FileName })
 			};
 
         public static Func<Product, ProductDto> EntityToDtoFunc => EntityToDtoExpression.Compile();
@@ -49,7 +51,8 @@ namespace ModernShopping.Application.Utils.Mappers
 	        return query
 		        .Include(p => p.Category)
 		        .Include(p => p.Supplier)
-		        .Include(p => p.ProductImages);
+		        .Include(p => p.ProductImages)
+		        .ThenInclude(pi => pi.Image);
         }
     }
 }
