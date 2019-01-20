@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.Internal;
@@ -27,48 +28,46 @@ namespace ModernShopping.Application.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(IEnumerable<int> ids = null)
+        public async Task<IEnumerable<ProductDto>> GetProductsAsync(IEnumerable<int> ids = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await _context.Products
                 .ProductIncludes()
                 .ApplyWhere(ids != null && ids.Any(), p => ids.Contains(p.ProductId))
                 .Select(ProductMapper.EntityToDtoExpression)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<ProductDto> GetProductById(int id)
+        public async Task<ProductDto> GetProductByIdAsync(int id, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return (await GetProducts(new List<int> {id})).FirstOrDefault();
+            return (await GetProductsAsync(new List<int> {id}, cancellationToken)).FirstOrDefault();
         }
 
-        public async Task DeleteProduct(int id)
+        public async Task DeleteProductAsync(int id, CancellationToken cancellationToken = default(CancellationToken))
         {
             var productEntity = await _context.Products
-                .FirstOrDefaultAsync(p => p.ProductId == id);
+                .FirstOrDefaultAsync(p => p.ProductId == id, cancellationToken);
 
             if (productEntity == null)
                 throw  new EntityNotFoundException($"Cannot find product with id={id} in order to delete");
 
             _context.Products.Remove(productEntity);
 
-            var affectedRow = await _context.SaveChangesAsync();
+            var affectedRow = await _context.SaveChangesAsync(cancellationToken);
             HelperCore.CheckSaveChange(affectedRow, 1);
 
         }
 
-	    public async Task<ProductDto> AddProduct(ProductForCreationDto newProduct)
+	    public async Task<ProductDto> AddProductAsync(ProductForCreationDto newProduct, CancellationToken cancellationToken = default(CancellationToken))
 	    {
-	        var result = await AddProducts(new List<ProductForCreationDto> {newProduct});
-
-            return result.FirstOrDefault();
+	        return (await AddProductsAsync(new List<ProductForCreationDto> {newProduct}, cancellationToken)).FirstOrDefault();
 	    }
 
-        public async Task<IEnumerable<ProductDto>> AddProducts(
-            IEnumerable<ProductForCreationDto> newProducts)
+        public async Task<IEnumerable<ProductDto>> AddProductsAsync(
+            IEnumerable<ProductForCreationDto> newProducts, CancellationToken cancellationToken = default(CancellationToken))
         {
             var productEntities = newProducts.Select(ProductMapper.CreationToEntityFunc).ToList();
             _context.Products.AddRange(productEntities);
-            var affectedRow = await _context.SaveChangesAsync();
+            var affectedRow = await _context.SaveChangesAsync(cancellationToken);
             var expectedAffectedRow = productEntities.Count + productEntities.Sum(p => p.ProductImages.Count);
 
             HelperCore.CheckSaveChange(affectedRow, expectedAffectedRow);
@@ -78,7 +77,7 @@ namespace ModernShopping.Application.Services
             return returnProducts;
         }
 
-	    public async Task<IEnumerable<LabelValueObject>> GetSupplierSource(string query)
+	    public async Task<IEnumerable<LabelValueObject>> GetSupplierSourceAsync(string query, CancellationToken cancellationToken = default(CancellationToken))
 	    {
 		    return await  _context.Suppliers
 			    .Where(s => s.CompanyName.Contains(query))
@@ -88,10 +87,10 @@ namespace ModernShopping.Application.Services
 				    Value = s.SupplierId
 			    })
 			    .Take(ApplicationConst.MaximumTake)
-			    .ToListAsync();
+			    .ToListAsync(cancellationToken);
 	    }
 
-	    public async Task<IEnumerable<LabelValueObject>> GetCategorySource(string query)
+	    public async Task<IEnumerable<LabelValueObject>> GetCategorySourceAsync(string query, CancellationToken cancellationToken = default(CancellationToken))
 	    {
 		    return await _context.Categories
 			    .Where(c => c.CategoryName.Contains(query))
@@ -101,7 +100,7 @@ namespace ModernShopping.Application.Services
 				    Value = c.CategoryId
 			    })
 			    .Take(ApplicationConst.MaximumTake)
-			    .ToListAsync();
+			    .ToListAsync(cancellationToken);
 	    }
 	}
 }

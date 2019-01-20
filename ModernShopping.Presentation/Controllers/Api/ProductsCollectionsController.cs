@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +24,11 @@ namespace ModernShopping.Presentation.Controllers.Api
         [HttpGet("({ids})")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts(IEnumerable<int> ids)
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts(IEnumerable<int> ids, CancellationToken cancellationToken)
         {
             if (!ids.Any()) return NotFound();
 
-            var returnProducts = await _productService.GetProducts(ids);
+            var returnProducts = await _productService.GetProductsAsync(ids, cancellationToken);
             if (returnProducts.Count() != ids.Count())
                 return NotFound();
 
@@ -36,9 +37,9 @@ namespace ModernShopping.Presentation.Controllers.Api
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> CreateProduct(IEnumerable<ProductForCreationDto> newProduct)
+        public async Task<ActionResult<IEnumerable<ProductDto>>> CreateProduct(IEnumerable<ProductForCreationDto> newProduct, CancellationToken cancellationToken)
         {
-            var products = await _productService.AddProducts(newProduct);
+            var products = await _productService.AddProductsAsync(newProduct, cancellationToken);
             var newProductIds = products.Select(p => p.ProductId);
 
             return CreatedAtAction("GetProducts", new {ids = string.Join(',', newProductIds)}, products);
