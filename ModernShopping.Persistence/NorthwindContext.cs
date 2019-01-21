@@ -18,7 +18,7 @@ namespace ModernShopping.Persistence
         {
         }
 
-        public virtual DbSet<CartLine> CartDetails { get; set; }
+        public virtual DbSet<CartLine> CartLines { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
@@ -44,36 +44,6 @@ namespace ModernShopping.Persistence
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CartLine>(entity =>
-            {
-                entity.HasKey(e => new { e.CartId, e.ProductId });
-
-                entity.Property(e => e.CartId).HasColumnName("CartID");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.Property(e => e.UnitPrice).HasColumnType("money");
-
-                entity.HasOne(d => d.Cart)
-                    .WithMany(p => p.CartLines)
-                    .HasForeignKey(d => d.CartId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CartDetails_Carts");
-
-            });
-
-            modelBuilder.Entity<Cart>(entity =>
-            {
-                entity.HasKey(e => e.CartId);
-
-                entity.Property(e => e.CartId).HasColumnName("CartID");
-
-                entity.Property(e => e.CustomerId)
-                    .IsRequired()
-                    .HasColumnName("CustomerID")
-                    .HasMaxLength(5);
-            });
-
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasKey(e => e.CategoryId);
@@ -414,6 +384,36 @@ namespace ModernShopping.Persistence
                     .HasConstraintName("FK_Territories_Region");
             });
 
+            modelBuilder.Entity<CartLine>(entity =>
+            {
+                entity.HasKey(e => new { e.CartId, e.ProductId });
+
+                entity.Property(e => e.CartId).HasColumnName("CartID");
+
+                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+
+                entity.Property(e => e.UnitPrice).HasColumnType("money");
+
+            });
+
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.HasKey(e => e.CartId);
+
+                entity.Property(e => e.CartId).HasColumnName("CartID");
+
+                entity.Property(e => e.CustomerId)
+                    .IsRequired()
+                    .HasColumnName("CustomerID")
+                    .HasMaxLength(5);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasDefaultValueSql("GETDATE()");
+
+                entity.HasMany(e => e.CartLines)
+                    .WithOne()
+                    .HasForeignKey(d => d.CartId);
+            });
 
         }
 

@@ -775,15 +775,12 @@ GO
 CREATE TABLE [dbo].[Carts](
 	[CartID] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerID] [nchar](5) NOT NULL,
-	[CreatedDate] [datetime2](7) NOT NULL,
+	[CreatedDate] [datetime2](7) DEFAULT (GETDATE()) NOT NULL,
  CONSTRAINT [PK_Carts] PRIMARY KEY CLUSTERED 
 (
 	[CartID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[Carts] ADD  CONSTRAINT [DF_Carts_CreatedDate]  DEFAULT (GETDATE()) FOR [CreatedDate]
 GO
 
 ALTER TABLE [dbo].[Carts]  WITH CHECK ADD  CONSTRAINT [FK_Carts_Customers] FOREIGN KEY([CustomerID])
@@ -799,7 +796,7 @@ CREATE TABLE [dbo].[CartLines](
 	[ProductID] [int] NOT NULL,
 	[UnitPrice] [money] NOT NULL,
 	[Quantity] [smallint] NOT NULL,
- CONSTRAINT [PK_CartDetails] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_CartLines] PRIMARY KEY CLUSTERED 
 (
 	[CartID] ASC,
 	[ProductID] ASC
@@ -807,16 +804,16 @@ CREATE TABLE [dbo].[CartLines](
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[CartDetails]  WITH CHECK ADD  CONSTRAINT [FK_CartDetails_Carts] FOREIGN KEY([CartID])
+ALTER TABLE [dbo].[CartLines]  WITH CHECK ADD  CONSTRAINT [FK_CartLines_Carts] FOREIGN KEY([CartID])
 REFERENCES [dbo].[Carts] ([CartID])
 GO
 
-ALTER TABLE [dbo].[CartDetails] CHECK CONSTRAINT [FK_CartDetails_Carts]
+ALTER TABLE [dbo].[CartLines] CHECK CONSTRAINT [FK_CartLines_Carts]
 GO
 
-ALTER TABLE [dbo].[CartDetails]  WITH CHECK ADD  CONSTRAINT [FK_CartDetails_Products] FOREIGN KEY([ProductID])
+ALTER TABLE [dbo].[CartLines]  WITH CHECK ADD  CONSTRAINT [FK_CartLines_Products] FOREIGN KEY([ProductID])
 REFERENCES [dbo].[Products] ([ProductID])
 GO
 
-ALTER TABLE [dbo].[CartDetails] CHECK CONSTRAINT [FK_CartDetails_Products]
+ALTER TABLE [dbo].[CartLines] CHECK CONSTRAINT [FK_CartLines_Products]
 GO

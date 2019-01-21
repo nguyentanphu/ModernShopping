@@ -24,7 +24,7 @@ namespace ModernShopping.Application.Services
 
 		private async Task<Cart> GetUserCartEntity(CancellationToken cancellationToken)
 		{
-			return await _context.Carts
+            return await _context.Carts
 				.Include(c => c.CartLines)
 				.ThenInclude(cd => cd.Product)
 				.FirstOrDefaultAsync(c => c.CustomerId == "CACTU", cancellationToken);
@@ -39,13 +39,19 @@ namespace ModernShopping.Application.Services
 
 		public async Task<CartLineDto> AddCartLine(CartLineDto cartLine, CancellationToken cancellationToken = default(CancellationToken))
 		{
-			var userCart = await GetUserCartEntity(cancellationToken) ?? new Cart();
+		    var userCart = await GetUserCartEntity(cancellationToken);
 
-			var result = userCart.AddCartLine(cartLine.Map(CartMapper.CartLineDtoToEntityFunc));
+		    if (userCart == null)
+		    {
+		        userCart = new Cart { CustomerId = "CACTU" };
+		        _context.Add(userCart);
+		    }
 
-			await _context.SaveChangesAsync(cancellationToken);
+		    var result = userCart.AddCartLine(cartLine.Map(CartMapper.CartLineDtoToEntityFunc));
 
-			return result.Map(CartMapper.CartLineEntityToDto);
+		    await _context.SaveChangesAsync(cancellationToken);
+
+		    return result.Map(CartMapper.CartLineEntityToDto);
 		}
 
 	}

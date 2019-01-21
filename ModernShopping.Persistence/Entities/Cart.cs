@@ -17,26 +17,26 @@ namespace ModernShopping.Persistence.Entities
 
         public ICollection<CartLine> CartLines { get; set; }
 
-	    private CartLine GetCurrentCartLine(CartLine cartLine)
-	    {
-		    if (cartLine == null) throw new ArgumentException("cartLine cannot be null", nameof(cartLine));
+        private CartLine GetCurrentCartLine(CartLine cartLine)
+        {
+            if (cartLine == null) throw new ArgumentException("cartLine cannot be null", nameof(cartLine));
 
-		    return CartLines.FirstOrDefault(l => l.ProductId == cartLine.ProductId);
-		}
-	    public CartLine AddCartLine(CartLine cartLine)
-	    {
-		    var existingLine = GetCurrentCartLine(cartLine);
+            return CartLines.FirstOrDefault(l => l.ProductId == cartLine.ProductId);
+        }
+        public CartLine AddCartLine(CartLine cartLine)
+        {
+            var existingLine = GetCurrentCartLine(cartLine);
 
-		    if (existingLine == null)
-			    CartLines.Add(cartLine);
-		    else
-		    {
-			    existingLine.Quantity = cartLine.Quantity;
-			    existingLine.UnitPrice = cartLine.UnitPrice;
-		    }
+            if (existingLine == null)
+                CartLines.Add(cartLine);
+            else
+            {
+                existingLine.Quantity = cartLine.Quantity;
+                existingLine.UnitPrice = cartLine.UnitPrice;
+            }
 
-		    return cartLine;
-	    }
+            return cartLine;
+        }
 
     }
 }
