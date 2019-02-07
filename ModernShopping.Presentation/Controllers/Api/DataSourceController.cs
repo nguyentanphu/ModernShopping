@@ -11,6 +11,7 @@ using ModernShopping.Application.Dtos;
 namespace ModernShopping.Presentation.Controllers.Api
 {
     [Route("api/data-source")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public class DataSourceController : ApiBaseController
     {
         private readonly IProductService _productService;

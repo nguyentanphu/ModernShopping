@@ -10,6 +10,7 @@ using ModernShopping.Application.Dtos.Carts;
 
 namespace ModernShopping.Presentation.Controllers.Api
 {
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public class CartController : ApiBaseController
     {
         private readonly ICartService _cartService;
@@ -26,7 +27,7 @@ namespace ModernShopping.Presentation.Controllers.Api
         }
 
         [HttpPost("cart-line")]
-        public async Task<ActionResult<CartLineDto>> AddCartLine(CartLineDto cartLine, CancellationToken cancellationToken)
+        public async Task<ActionResult<CartLineDto>> AddCartLine(CartLineForCreationDto cartLine, CancellationToken cancellationToken)
         {
             return await _cartService.AddCartLine(cartLine, cancellationToken);
         }

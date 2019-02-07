@@ -18,10 +18,9 @@ namespace ModernShopping.Application.Utils.Mappers
 
 		public static Func<Cart, CartDto> EntityToDtoFunc = EntityToDtoExpression.Compile();
 
-		public static Func<CartLineDto, CartLine> CartLineDtoToEntityFunc =>
+		public static Func<CartLineForCreationDto, CartLine> CartLineForCreationDtoToEntityFunc =>
 			c => new CartLine
 			{
-				CartId = c.CartId,
 				ProductId = c.ProductId,
 				Quantity = c.Quantity,
 				UnitPrice = c.UnitPrice

@@ -37,7 +37,7 @@ namespace ModernShopping.Application.Services
 			return userCart.Map(CartMapper.EntityToDtoFunc);
 		}
 
-		public async Task<CartLineDto> AddCartLine(CartLineDto cartLine, CancellationToken cancellationToken = default(CancellationToken))
+		public async Task<CartLineDto> AddCartLine(CartLineForCreationDto cartLine, CancellationToken cancellationToken = default(CancellationToken))
 		{
 		    var userCart = await GetUserCartEntity(cancellationToken);
 
@@ -47,7 +47,7 @@ namespace ModernShopping.Application.Services
 		        _context.Add(userCart);
 		    }
 
-		    var result = userCart.AddCartLine(cartLine.Map(CartMapper.CartLineDtoToEntityFunc));
+		    var result = userCart.AddCartLine(cartLine.Map(CartMapper.CartLineForCreationDtoToEntityFunc));
 
 		    await _context.SaveChangesAsync(cancellationToken);
 
