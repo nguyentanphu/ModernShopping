@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos.Carts;
+using ModernShopping.Application.Exceptions;
 using ModernShopping.Application.Utils.Mappers;
 using ModernShopping.Persistence;
 using ModernShopping.Persistence.Entities;
@@ -22,28 +23,34 @@ namespace ModernShopping.Application.Services
 			_context = context;
 		}
 
-		private async Task<Cart> GetUserCartEntity(CancellationToken cancellationToken)
+		private async Task<Cart> GetUserCartEntity(string customerId, CancellationToken cancellationToken)
 		{
             return await _context.Carts
 				.Include(c => c.CartLines)
 				.ThenInclude(cd => cd.Product)
-				.FirstOrDefaultAsync(c => c.CustomerId == "CACTU", cancellationToken);
+				.FirstOrDefaultAsync(c => c.CustomerId == customerId, cancellationToken);
 		}
 
-		public async Task<CartDto> GetUserCart(CancellationToken cancellationToken = default(CancellationToken))
+		public async Task<CartDto> GetUserCart(string customerId, CancellationToken cancellationToken = default(CancellationToken))
 		{
-			var userCart = await GetUserCartEntity(cancellationToken);
+			if (string.IsNullOrEmpty(customerId))
+				throw new ArgumentNullException(nameof(customerId));
+
+			var userCart = await GetUserCartEntity(customerId, cancellationToken) ?? new Cart();
 
 			return userCart.Map(CartMapper.EntityToDtoFunc);
 		}
 
-		public async Task<CartLineDto> AddCartLine(CartLineForCreationDto cartLine, CancellationToken cancellationToken = default(CancellationToken))
+		public async Task<CartLineDto> AddCartLine(string customerId, CartLineForCreationDto cartLine, CancellationToken cancellationToken = default(CancellationToken))
 		{
-		    var userCart = await GetUserCartEntity(cancellationToken);
+			if (string.IsNullOrEmpty(customerId))
+				throw new ArgumentNullException(nameof(customerId));
+
+			var userCart = await GetUserCartEntity(customerId, cancellationToken);
 
 		    if (userCart == null)
 		    {
-		        userCart = new Cart { CustomerId = "CACTU" };
+		        userCart = new Cart { CustomerId = customerId };
 		        _context.Add(userCart);
 		    }
 
@@ -51,7 +58,27 @@ namespace ModernShopping.Application.Services
 
 		    await _context.SaveChangesAsync(cancellationToken);
 
-		    return result.Map(CartMapper.CartLineEntityToDto);
+		    var cartLineDto = result.Map(CartMapper.CartLineEntityToDto);
+
+			if (cartLineDto != null && string.IsNullOrEmpty(cartLineDto.ProductName))
+				cartLineDto.ProductName = cartLine.ProductName;
+
+			return cartLineDto;
+		}
+
+		public async Task DeleteCart(string customerId, CancellationToken cancellationToken = default(CancellationToken))
+		{
+			if (string.IsNullOrEmpty(customerId))
+				throw new ArgumentNullException(nameof(customerId));
+
+			var userCart = await GetUserCartEntity(customerId, cancellationToken);
+			if (userCart == null) 
+				throw new EntityNotFoundException("Current user's cart does not exist!");
+
+			userCart.CartLines.Clear();
+			_context.Carts.Remove(userCart);
+
+			await _context.SaveChangesAsync(cancellationToken);
 		}
 
 	}

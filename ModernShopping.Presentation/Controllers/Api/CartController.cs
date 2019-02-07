@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModernShopping.Application.Contracts;
 using ModernShopping.Application.Dtos.Carts;
+using ModernShopping.Application.Exceptions;
 
 namespace ModernShopping.Presentation.Controllers.Api
 {
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    
     public class CartController : ApiBaseController
     {
         private readonly ICartService _cartService;
@@ -21,15 +22,33 @@ namespace ModernShopping.Presentation.Controllers.Api
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CartDto>> GetCart(CancellationToken cancellationToken)
         {
-            return await _cartService.GetUserCart(cancellationToken);
+            return await _cartService.GetUserCart("CACTU", cancellationToken);
         }
 
         [HttpPost("cart-line")]
-        public async Task<ActionResult<CartLineDto>> AddCartLine(CartLineForCreationDto cartLine, CancellationToken cancellationToken)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<CartLineDto>> AdjustCartLine(CartLineForCreationDto cartLine, CancellationToken cancellationToken)
         {
-            return await _cartService.AddCartLine(cartLine, cancellationToken);
+            return await _cartService.AddCartLine("CACTU", cartLine, cancellationToken);
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteCart(CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _cartService.DeleteCart("CACTU", cancellationToken);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
     }

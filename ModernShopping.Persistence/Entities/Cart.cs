@@ -35,9 +35,11 @@ namespace ModernShopping.Persistence.Entities
 
 	        existingLine.Quantity += cartLine.Quantity;
 	        existingLine.UnitPrice = cartLine.UnitPrice;
-	        return existingLine;
 
+			if (existingLine.Quantity == 0)
+				CartLines.Remove(existingLine);
 
+			return existingLine;
         }
 
     }
