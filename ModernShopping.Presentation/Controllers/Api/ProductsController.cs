@@ -33,6 +33,7 @@ namespace ModernShopping.Presentation.Controllers.Api
 	    }
 
 	    [HttpGet]
+        [HttpHead]
 	    [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts(CancellationToken cancellationToken)
 	    {
@@ -64,6 +65,14 @@ namespace ModernShopping.Presentation.Controllers.Api
             
             return CreatedAtAction("GetProduct", new {id = product.ProductId}, product);
 
+        }
+
+        [HttpOptions]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult ProductOptions()
+        {
+            Response.Headers.Add("Allow", "GET,POST,DELETE,OPTIONS");
+            return Ok();
         }
 	}
 }
