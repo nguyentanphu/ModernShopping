@@ -63,7 +63,7 @@ namespace ModernShopping.Presentation.Controllers.Api
         {
             var product = await _productService.AddProductAsync(newProduct, cancellationToken);
             
-            return CreatedAtAction("GetProduct", new {id = product.ProductId}, product);
+            return CreatedAtAction(nameof(GetProduct), new {id = product.ProductId}, product);
 
         }
 
