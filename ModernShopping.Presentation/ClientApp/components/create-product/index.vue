@@ -159,7 +159,7 @@ export default {
     data() {
         return {
             isSubmited: false,
-            productsToCreate: [this.getEmptyProduct()]
+            productsToCreate: []
         }
     },
     methods: {
@@ -175,7 +175,7 @@ export default {
                 imageId: null
             }
         },
-        createProducts() {
+        async createProducts() {
             this.isSubmited = true
 
             for (const product of this.productsToCreate) {
@@ -183,16 +183,12 @@ export default {
             }
 
             try {
-                const response = axios.post(
+                const response = await axios.post(
                     '/api/products-collections',
                     this.productsToCreate
                 )
 
-                this.$delete(
-                    this.productsToCreate,
-                    this.productsToCreate.length
-                )
-                this.productsToCreate = [this.getEmptyProduct()]
+                this.productsToCreate = []
                 this.isSubmited = false
 
                 this.$notify({

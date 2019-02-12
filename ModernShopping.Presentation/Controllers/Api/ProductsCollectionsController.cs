@@ -42,7 +42,7 @@ namespace ModernShopping.Presentation.Controllers.Api
             var products = await _productService.AddProductsAsync(newProduct, cancellationToken);
             var newProductIds = products.Select(p => p.ProductId);
 
-            return CreatedAtAction("GetProducts", new {ids = string.Join(',', newProductIds)}, products);
+            return CreatedAtAction(nameof(GetProducts), new {ids = string.Join(',', newProductIds)}, products);
         }
     }
 }
