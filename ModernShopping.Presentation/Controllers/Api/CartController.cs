@@ -25,6 +25,10 @@ namespace ModernShopping.Presentation.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CartDto>> GetCart(CancellationToken cancellationToken)
         {
+            // No longer need to do this as using the [ApiController]
+            //if (ModelState.IsValid)
+            //    return BadRequest();
+
             return await _cartService.GetUserCart("CACTU", cancellationToken);
         }
 
