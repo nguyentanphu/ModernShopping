@@ -1,0 +1,153 @@
+2019-03-30 19:49:14.453 +07:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-30 19:49:14.495 +07:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-30 19:49:14.499 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-30 19:49:14.499 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-30 19:49:14.500 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-30 19:49:14.501 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-30 19:49:14.501 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-30 19:49:15.542 +07:00 [DBG] Login Url: /Account/Login
+2019-03-30 19:49:15.545 +07:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-30 19:49:15.549 +07:00 [DBG] Logout Url: /Account/Logout
+2019-03-30 19:49:15.550 +07:00 [DBG] ConsentUrl Url: /consent
+2019-03-30 19:49:15.553 +07:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-30 19:49:15.554 +07:00 [DBG] Error Url: /home/error
+2019-03-30 19:49:15.555 +07:00 [DBG] Error Id Parameter: errorId
+2019-03-30 20:07:12.338 +07:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-30 20:07:12.373 +07:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-30 20:07:12.376 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-30 20:07:12.376 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-30 20:07:12.377 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-30 20:07:12.377 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-30 20:07:12.378 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-30 20:07:12.952 +07:00 [DBG] Login Url: /Account/Login
+2019-03-30 20:07:12.956 +07:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-30 20:07:12.961 +07:00 [DBG] Logout Url: /Account/Logout
+2019-03-30 20:07:12.962 +07:00 [DBG] ConsentUrl Url: /consent
+2019-03-30 20:07:12.965 +07:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-30 20:07:12.967 +07:00 [DBG] Error Url: /home/error
+2019-03-30 20:07:12.968 +07:00 [DBG] Error Id Parameter: errorId
+2019-03-30 20:12:30.225 +07:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-30 20:12:30.263 +07:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-30 20:12:30.266 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-30 20:12:30.266 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-30 20:12:30.267 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-30 20:12:30.267 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-30 20:12:30.268 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-30 20:12:30.671 +07:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Authentication failed because the remote party has closed the transport stream.
+   at System.Net.Security.SslState.StartReadFrame(Byte[] buffer, Int32 readBytes, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.StartReceiveBlob(Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ForceAuthentication(Boolean receiveFirst, Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslStream.BeginAuthenticateAsServer(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken, AsyncCallback asyncCallback, Object asyncState)
+   at System.Net.Security.SslStream.<>c.<AuthenticateAsServerAsync>b__51_0(SslServerAuthenticationOptions arg1, CancellationToken arg2, AsyncCallback callback, Object state)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl[TArg1,TArg2](Func`5 beginMethod, Func`2 endFunction, Action`1 endAction, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state)
+   at System.Net.Security.SslStream.AuthenticateAsServerAsync(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionAdapter.InnerOnConnectionAsync(ConnectionAdapterContext context)
+2019-03-30 20:12:30.671 +07:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Authentication failed because the remote party has closed the transport stream.
+   at System.Net.Security.SslState.StartReadFrame(Byte[] buffer, Int32 readBytes, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.StartReceiveBlob(Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ForceAuthentication(Boolean receiveFirst, Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslStream.BeginAuthenticateAsServer(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken, AsyncCallback asyncCallback, Object asyncState)
+   at System.Net.Security.SslStream.<>c.<AuthenticateAsServerAsync>b__51_0(SslServerAuthenticationOptions arg1, CancellationToken arg2, AsyncCallback callback, Object state)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl[TArg1,TArg2](Func`5 beginMethod, Func`2 endFunction, Action`1 endAction, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state)
+   at System.Net.Security.SslStream.AuthenticateAsServerAsync(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionAdapter.InnerOnConnectionAsync(ConnectionAdapterContext context)
+2019-03-30 20:12:31.150 +07:00 [DBG] Login Url: /Account/Login
+2019-03-30 20:12:31.151 +07:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-30 20:12:31.154 +07:00 [DBG] Logout Url: /Account/Logout
+2019-03-30 20:12:31.157 +07:00 [DBG] ConsentUrl Url: /consent
+2019-03-30 20:12:31.158 +07:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-30 20:12:31.159 +07:00 [DBG] Error Url: /home/error
+2019-03-30 20:12:31.160 +07:00 [DBG] Error Id Parameter: errorId
+2019-03-30 20:12:56.894 +07:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-30 20:12:56.929 +07:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-30 20:12:56.932 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-30 20:12:56.933 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-30 20:12:56.933 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-30 20:12:56.934 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-30 20:12:56.935 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-30 20:12:57.357 +07:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Authentication failed because the remote party has closed the transport stream.
+   at System.Net.Security.SslState.StartReadFrame(Byte[] buffer, Int32 readBytes, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.StartReceiveBlob(Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ForceAuthentication(Boolean receiveFirst, Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslStream.BeginAuthenticateAsServer(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken, AsyncCallback asyncCallback, Object asyncState)
+   at System.Net.Security.SslStream.<>c.<AuthenticateAsServerAsync>b__51_0(SslServerAuthenticationOptions arg1, CancellationToken arg2, AsyncCallback callback, Object state)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl[TArg1,TArg2](Func`5 beginMethod, Func`2 endFunction, Action`1 endAction, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state)
+   at System.Net.Security.SslStream.AuthenticateAsServerAsync(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionAdapter.InnerOnConnectionAsync(ConnectionAdapterContext context)
+2019-03-30 20:12:57.357 +07:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Authentication failed because the remote party has closed the transport stream.
+   at System.Net.Security.SslState.StartReadFrame(Byte[] buffer, Int32 readBytes, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.StartReceiveBlob(Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ForceAuthentication(Boolean receiveFirst, Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslStream.BeginAuthenticateAsServer(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken, AsyncCallback asyncCallback, Object asyncState)
+   at System.Net.Security.SslStream.<>c.<AuthenticateAsServerAsync>b__51_0(SslServerAuthenticationOptions arg1, CancellationToken arg2, AsyncCallback callback, Object state)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl[TArg1,TArg2](Func`5 beginMethod, Func`2 endFunction, Action`1 endAction, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state)
+   at System.Net.Security.SslStream.AuthenticateAsServerAsync(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionAdapter.InnerOnConnectionAsync(ConnectionAdapterContext context)
+2019-03-30 20:12:57.606 +07:00 [DBG] Login Url: /Account/Login
+2019-03-30 20:12:57.606 +07:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-30 20:12:57.609 +07:00 [DBG] Logout Url: /Account/Logout
+2019-03-30 20:12:57.610 +07:00 [DBG] ConsentUrl Url: /consent
+2019-03-30 20:12:57.618 +07:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-30 20:12:57.623 +07:00 [DBG] Error Url: /home/error
+2019-03-30 20:12:57.624 +07:00 [DBG] Error Id Parameter: errorId
+2019-03-30 20:31:56.944 +07:00 [INF] AuthenticationScheme: Identity.Application was challenged.
+2019-03-30 20:32:39.665 +07:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-30 20:32:39.699 +07:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-30 20:32:39.703 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-30 20:32:39.703 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-30 20:32:39.704 +07:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-30 20:32:39.704 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-30 20:32:39.705 +07:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-30 20:32:40.113 +07:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Authentication failed because the remote party has closed the transport stream.
+   at System.Net.Security.SslState.StartReadFrame(Byte[] buffer, Int32 readBytes, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.StartReceiveBlob(Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ForceAuthentication(Boolean receiveFirst, Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslStream.BeginAuthenticateAsServer(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken, AsyncCallback asyncCallback, Object asyncState)
+   at System.Net.Security.SslStream.<>c.<AuthenticateAsServerAsync>b__51_0(SslServerAuthenticationOptions arg1, CancellationToken arg2, AsyncCallback callback, Object state)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl[TArg1,TArg2](Func`5 beginMethod, Func`2 endFunction, Action`1 endAction, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state)
+   at System.Net.Security.SslStream.AuthenticateAsServerAsync(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionAdapter.InnerOnConnectionAsync(ConnectionAdapterContext context)
+2019-03-30 20:32:40.113 +07:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Authentication failed because the remote party has closed the transport stream.
+   at System.Net.Security.SslState.StartReadFrame(Byte[] buffer, Int32 readBytes, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.StartReceiveBlob(Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ForceAuthentication(Boolean receiveFirst, Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslState.ProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslStream.BeginAuthenticateAsServer(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken, AsyncCallback asyncCallback, Object asyncState)
+   at System.Net.Security.SslStream.<>c.<AuthenticateAsServerAsync>b__51_0(SslServerAuthenticationOptions arg1, CancellationToken arg2, AsyncCallback callback, Object state)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl[TArg1,TArg2](Func`5 beginMethod, Func`2 endFunction, Action`1 endAction, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state)
+   at System.Net.Security.SslStream.AuthenticateAsServerAsync(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionAdapter.InnerOnConnectionAsync(ConnectionAdapterContext context)
+2019-03-30 20:32:40.394 +07:00 [DBG] Login Url: /Account/Login
+2019-03-30 20:32:40.395 +07:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-30 20:32:40.399 +07:00 [DBG] Logout Url: /Account/Logout
+2019-03-30 20:32:40.399 +07:00 [DBG] ConsentUrl Url: /consent
+2019-03-30 20:32:40.408 +07:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-30 20:32:40.413 +07:00 [DBG] Error Url: /home/error
+2019-03-30 20:32:40.414 +07:00 [DBG] Error Id Parameter: errorId
+2019-03-30 20:32:59.401 +07:00 [INF] AuthenticationScheme: Identity.Application was challenged.
+2019-03-30 20:33:12.207 +07:00 [INF] AuthenticationScheme: Google was challenged.
+2019-03-30 20:34:52.621 +07:00 [INF] AuthenticationScheme: Identity.Application was challenged.
+2019-03-30 20:34:54.202 +07:00 [INF] AuthenticationScheme: Google was challenged.
