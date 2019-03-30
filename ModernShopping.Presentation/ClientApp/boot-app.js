@@ -7,7 +7,9 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'animate.css'
 import './icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {
+  FontAwesomeIcon
+} from '@fortawesome/vue-fontawesome'
 import Notifications from 'vue-notification'
 
 Vue.use(Notifications)

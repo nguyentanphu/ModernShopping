@@ -5,12 +5,18 @@ export const routes = [{
     name: 'home',
     path: '/',
     component: HomePage,
-    display: 'Home'
+    display: 'Home',
+    meta: {
+      requireAuth: false
+    }
   },
   {
     name: 'create-product',
     path: '/create-product',
     component: CreateProduct,
-    display: 'Create product'
+    display: 'Create product',
+    meta: {
+      requireAuth: true
+    }
   }
 ]

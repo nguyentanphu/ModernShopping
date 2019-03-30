@@ -11,4 +11,20 @@ let router = new VueRouter({
   routes
 })
 
+router.beforeEach(async (to, from, next) => {
+  const app = router.app.$data || {
+    isAuthenticated: false
+  }
+  if (app.isAuthenticated) {
+    next()
+  } else if (to.matched.some(r => r.meta.requireAuth)) {
+    // authentication require
+    await router.app.authenticate(to.path)
+    console.log('authenticating a protected url:' + to.path)
+  } else {
+    // no authentication require
+    next()
+  }
+})
+
 export default router
