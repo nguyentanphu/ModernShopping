@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +36,19 @@ namespace ModernShopping.Presentation.Controllers.Api
             {
                 throw new EmptyFileException();
             }
+
+            var client = new HttpClient();
+            var token = this.HttpContext.Request.Headers["Authorization"][0].Replace("Bearer", string.Empty);
+            var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5000");
+            if (disco.IsError) throw new Exception(disco.Error);
+
+            var clientUserInfo = new HttpClient();
+
+            var response = await client.GetUserInfoAsync(new UserInfoRequest
+            {
+                Address = disco.UserInfoEndpoint,
+                Token = token
+            });
 
             var imagePath = _imageService.GenerateUniqueImagePath(_environment.WebRootPath, imageUpload.FileName);
             var loadedImage = _imageService.Load(imageUpload.OpenReadStream());
