@@ -21,6 +21,7 @@ router.beforeEach(async (to, from, next) => {
     // authentication require
     await router.app.authenticate(to.path)
     console.log('authenticating a protected url:' + to.path)
+    next()
   } else {
     // no authentication require
     next()

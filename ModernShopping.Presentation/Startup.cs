@@ -48,7 +48,7 @@ namespace ModernShopping.Presentation
                 options.SwaggerDoc("v1beta", new Info { Title = "Modern shopping api", Version = "v1beta" });
             });
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
                 {

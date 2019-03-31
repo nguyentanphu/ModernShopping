@@ -1,5 +1,6 @@
 import CreateProduct from '../components/create-product'
-import HomePage from 'components/home'
+import HomePage from '../components/home'
+import Callback from '../components/callback'
 
 export const routes = [{
     name: 'home',
@@ -18,5 +19,10 @@ export const routes = [{
     meta: {
       requireAuth: true
     }
+  },
+  {
+    name: 'callback',
+    path: '/callback',
+    component: Callback
   }
 ]
